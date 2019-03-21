@@ -1,6 +1,6 @@
 %% export_data_table
 % Export data as a LaTeX/pgfplots readable tabseparated table
-% by Paul Imgart, last change: 20.03.2019
+% by Paul Imgart, last change: 21.03.2019
 %
 % Function call:
 % export_data_table(filename,header,varargin)
@@ -43,13 +43,12 @@ for k=1:size(varargin{1},1)
         end
     end
     % Write the last variable (extra to replace \t by \n)
-    l=l+1;
     % Write all but the last column of the last variable
     for m=1:size(varargin{l},2)-1
-        fprintf(file,'%g\t',varargin{l}(k,m));
+        fprintf(file,'%g\t',varargin{end}(k,m));
     end
     % Write last column of last variable
-    fprintf(file,'%g\n',varargin{l}(k,end));
+    fprintf(file,'%g\n',varargin{end}(k,end));
 
 end
 
