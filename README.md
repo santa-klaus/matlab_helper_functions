@@ -1,7 +1,9 @@
 # matlab_helper_functions
 Helper functions for MATLAB. For usage of the functions see individual files.
 
+
 Available functions:
+
 export_data_table:
   Export variables from MATLAB to a tab separated file with header, e.g. for Latex (pgfplots/pgfplotstable).
 
