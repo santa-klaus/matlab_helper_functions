@@ -44,7 +44,7 @@ for k=1:size(varargin{1},1)
     end
     % Write the last variable (extra to replace \t by \n)
     % Write all but the last column of the last variable
-    for m=1:size(varargin{l},2)-1
+    for m=1:size(varargin{end},2)-1
         fprintf(file,'%g\t',varargin{end}(k,m));
     end
     % Write last column of last variable
