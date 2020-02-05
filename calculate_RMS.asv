@@ -73,17 +73,17 @@ rms_data = zeros(length(sig_data)-start+1,1);
 
 for k=1:length(rms_data)  
     % Find first time stamp that is less than window_length away from the
-    % current
+    % kurrent
     fi = find(t_stamp-(t_stamp(k+start)-window_length)>0,1);
     
-    % compute RMS
     rms_data(k) = sqrt(1/(k+start-fi+1)*sum(sig_data(fi:k+start).^2));
 
 
 end
 
-% Compose outputs
+
 if strcmp(mode,'timeseries')
+    
     rms_sig = sig;
     rms_sig.Data = rms_data;
     rms_sig.Time = t_stamp(start+1:end);
@@ -91,6 +91,7 @@ if strcmp(mode,'timeseries')
     varargout = rms_sig;
     
 else
+    
     varargout = {t_stamp(start+1:end);rms_data};
     
 end
