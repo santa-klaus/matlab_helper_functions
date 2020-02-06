@@ -66,15 +66,16 @@ else
     
 end
 
-% Find last time stamp that is smaller or equal to the window length
-start = find(t_stamp>window_length,1)-1;
+% Find last time stamp that is smaller or equal to the window
+% length+initial time stamp
+start = find(t_stamp>=(window_length+t_stamp(1)),1)-1;
 % Initialize the data vector in the correct length
-rms_data = zeros(length(sig_data)-start+1,1);
+rms_data = zeros(length(sig_data)-start,1);
 
 for k=1:length(rms_data)  
-    % Find first time stamp that is less than window_length away from the
+    % Find first time stamp that is less(!) than window_length away from the
     % current
-    fi = find(t_stamp-(t_stamp(k+start)-window_length)>0,1);
+    fi = find(t_stamp-(t_stamp(k+start)-window_length)>=0,1);
     
     % compute RMS
     rms_data(k) = sqrt(1/(k+start-fi+1)*sum(sig_data(fi:k+start).^2));
@@ -83,15 +84,17 @@ for k=1:length(rms_data)
 end
 
 % Compose outputs
-if strcmp(mode,'timeseries')
-    rms_sig = sig;
-    rms_sig.Data = rms_data;
-    rms_sig.Time = t_stamp(start+1:end);
+if nargout==1
+    % Create timeseries
+    rms_sig = timeseries(rms_data,t_stamp(start+1:end));        
     
-    varargout = rms_sig;
+    varargout = {rms_sig};
+    
+elseif nargout==2
+    varargout = {t_stamp(start+1:end);rms_data};
     
 else
-    varargout = {t_stamp(start+1:end);rms_data};
+    error('Too many outputs requested from calculate_RMS')
     
 end
 
