@@ -22,7 +22,8 @@
 % Outputs:
 % Depending on the number of queried outputs. If one output is queried the
 % data is supplied as timeseries object, if two outputs are queried data is
-% supplied as time stamp and rms data vector.
+% supplied as 
+% rms_sig: RMS values of the signal
 %
 %
 % Include downsampling function?
