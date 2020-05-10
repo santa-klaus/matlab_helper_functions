@@ -82,10 +82,11 @@ rms_data = zeros(length(sig_data)-start,1);
 for k=1:length(rms_data)  
     % Find first time stamp that is less(!) than window_length away from the
     % current
-    fi = find(t_stamp-(t_stamp(k+start)-window_length)>0,1);
+    fi = find(t_stamp-(t_stamp(k+start)-window_length)>=1e-9,1);
     
     % compute RMS
     rms_data(k) = sqrt(1/(k+start-fi+1)*sum(sig_data(fi:k+start).^2));
+    disp(k+start-fi+1)
 
 
 end

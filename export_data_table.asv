@@ -16,10 +16,7 @@
 % - varargin:
 %       Data to be exported. All variables should have the same number of
 %       rows and be supplied separated by a comma. Variables can have more
-%       than one column. Cell arrays can be used as variables, but should
-%       not contain anything else than single-element entries for anything
-%       else than strings. E.g. {'a' 'bcd';'cde' 'f'} would be a valid
-%       input, {3;[3 4]} not.
+%       than one column. 
 
 function export_data_table(filename,header,varargin)
 
@@ -31,7 +28,7 @@ if ~isempty(header)
     for k=1:length(header)-1
         fprintf(file,'%s\t',header{k});
     end
-    
+
     fprintf(file,'%s\n',header{k+1});
     
 end
@@ -40,7 +37,7 @@ end
 % For each row
 for k=1:size(varargin{1},1)
     % Write all but the last variable
-    for l=1:length(varargin)
+    for l=1:length(varargin)-1
         % Add each column of the current variable
         for m=1:size(varargin{l},2)
             if iscell(varargin{l}(k,m))
@@ -49,20 +46,41 @@ for k=1:size(varargin{1},1)
                 curr_entry = varargin{l}(k,m);
             end
             
-            % Add a linebreak for the last column, a tab otherwise
-            if l==length(varargin) && m==size(varargin{l},2)
-                sep='\n';
+            if ischar(curr_entry)
+                fprintf(file,'%s\t',curr_entry);
             else
-                sep='\t';
+                fprintf(file,'%g\t',curr_entry);
+            end
+        end
+    end
+    % Write the last variable (extra to replace \t by \n)
+    % Write all but the last column of the last variable
+    for m=1:size(varargin{end},2)-1
+        if iscell(varargin{end}(k,m))
+                curr_entry = varargin{end}{k,m};
+            else
+                curr_entry = varargin{end}(k,m);
             end
             
             if ischar(curr_entry)
-                fprintf(file,['%s' sep],curr_entry);
+                fprintf(file,'%s\t',curr_entry);
             else
-                fprintf(file,['%g' sep],curr_entry);
+                fprintf(file,'%g\t',curr_entry);
             end
-        end
-    end    
+    end
+    % Write last column of last variable
+            if iscell(varargin{end}(k,end))
+                curr_entry = varargin{end}{k,end};
+            else
+                curr_entry = varargin{end}(k,end);
+            end
+            
+            if ischar(curr_entry)
+                fprintf(file,'%s\t',curr_entry);
+            else
+                fprintf(file,'%g\t',curr_entry);
+            end
+
 end
 
 fclose(file);
