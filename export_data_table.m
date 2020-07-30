@@ -1,6 +1,6 @@
 %% export_data_table
 % Export data as a LaTeX/pgfplots readable tabseparated table
-% by Paul Imgart, last change: 21.03.2019
+% by Paul Imgart, last change: 10.07.2020
 %
 % Function call:
 % export_data_table(filename,header,varargin)
