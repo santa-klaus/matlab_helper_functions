@@ -56,7 +56,7 @@ for k=1:size(varargin{1},1)
                 sep='\t';
             end
             
-            if ischar(curr_entry)
+            if ischar(curr_entry) || isstring(curr_entry)
                 fprintf(file,['%s' sep],curr_entry);
             else
                 fprintf(file,['%g' sep],curr_entry);
